@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
 import CoreGraphics
 #endif
 
@@ -403,7 +403,7 @@ open class WebDAVFileProvider: HTTPFileProvider, FileProviderSharing {
 }
 
 extension WebDAVFileProvider: ExtendedFileProvider {
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     open func thumbnailOfFileSupported(path: String) -> Bool {
         guard self.baseURL?.host?.contains("dav.yandex.") ?? false else {
             return false

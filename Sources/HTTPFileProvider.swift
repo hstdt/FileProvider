@@ -72,7 +72,7 @@ open class HTTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOper
         return _longpollSession!
     }
     
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     open var undoManager: UndoManager? = nil
     #endif
     
@@ -250,7 +250,7 @@ open class HTTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOper
                     throw cantLoadError
                 }
                 
-                #if os(macOS) || os(iOS) || os(tvOS)
+                #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
                 var coordError: NSError?
                 NSFileCoordinator().coordinate(writingItemAt: tempURL, options: .forMoving, writingItemAt: destURL, options: .forReplacing, error: &coordError, byAccessor: { (tempURL, destURL) in
                     do {
@@ -405,7 +405,7 @@ open class HTTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOper
                     }
                 }
                 
-                #if os(macOS) || os(iOS) || os(tvOS)
+                #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
                 self._registerUndo(operation)
                 #endif
                 progress.completedUnitCount = 1
@@ -566,7 +566,7 @@ open class HTTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOper
         progress.kind = .file
         progress.setUserInfoObject(Progress.FileOperationKind.downloading, forKey: .fileOperationKindKey)
         
-        #if os(macOS) || os(iOS) || os(tvOS)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
         var error: NSError?
         NSFileCoordinator().coordinate(readingItemAt: localFile, options: .forUploading, error: &error, byAccessor: { (url) in
             let task = self.session.uploadTask(with: request, fromFile: localFile)
@@ -712,6 +712,6 @@ open class HTTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOper
 
 extension HTTPFileProvider: FileProvider { }
 
-#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
 extension HTTPFileProvider: FileProvideUndoable { }
 #endif

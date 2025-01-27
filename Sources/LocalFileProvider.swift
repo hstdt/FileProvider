@@ -28,7 +28,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
     open private(set) var opFileManager = FileManager()
     fileprivate var fileProviderManagerDelegate: LocalFileProviderManagerDelegate? = nil
     
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     open var undoManager: UndoManager? = nil
 
     /**
@@ -55,7 +55,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
         self.init(baseURL: FileManager.default.urls(for: directory, in: domainMask).first!)
     }
     
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     /**
      Failable initializer for the specified shared container directory, allows data and files to be shared among app
      and extensions regarding sandbox requirements. Container ID is same with app group specified in project `Capabilities`
@@ -148,7 +148,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
     public func copy(with zone: NSZone? = nil) -> Any {
         let copy = LocalFileProvider(baseURL: self.baseURL!)
         copy.undoManager = self.undoManager
-        #if os(macOS) || os(iOS) || os(tvOS)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
         copy.isCoorinating = self.isCoorinating
         #endif
         copy.delegate = self.delegate
@@ -315,7 +315,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
             return nil
         }
         
-        #if os(macOS) || os(iOS) || os(tvOS)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
         var successfulSecurityScopedResourceAccess = false
         #endif
         
@@ -350,13 +350,13 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
                 default:
                     return
                 }
-                #if os(macOS) || os(iOS) || os(tvOS)
+                #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
                 if successfulSecurityScopedResourceAccess {
                     source.stopAccessingSecurityScopedResource()
                 }
                 #endif
                 
-                #if os(macOS) || os(iOS) || os(tvOS)
+                #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
                 self._registerUndo(operation)
                 #endif
                 progress.completedUnitCount = progress.totalUnitCount
@@ -365,7 +365,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
                 }
                 self.delegateNotify(operation)
             } catch {
-                #if os(macOS) || os(iOS) || os(tvOS)
+                #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
                 if successfulSecurityScopedResourceAccess {
                     source.stopAccessingSecurityScopedResource()
                 }
@@ -378,7 +378,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
             }
         }
         
-        #if os(macOS) || os(iOS) || os(tvOS)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
         if isCoorinating {
             successfulSecurityScopedResourceAccess = source.startAccessingSecurityScopedResource()
             var intents = [NSFileAccessIntent]()
@@ -447,7 +447,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
             }
         }
         
-        #if os(macOS) || os(iOS) || os(tvOS)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
         if isCoorinating {
             let intent = NSFileAccessIntent.readingIntent(with: url, options: .withoutChanges)
             coordinated(intents: [intent], operationHandler: operationHandler, errorHandler: { error in
@@ -531,7 +531,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
             }
         }
         
-        #if os(macOS) || os(iOS) || os(tvOS)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
         if isCoorinating {
             let intent = NSFileAccessIntent.readingIntent(with: url, options: .withoutChanges)
             coordinated(intents: [intent], operationHandler: operationHandler, errorHandler: { error in
@@ -631,7 +631,7 @@ open class LocalFileProvider: NSObject, FileProvider, FileProviderMonitor, FileP
     }
 }
 
-#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
 extension LocalFileProvider: FileProvideUndoable { }
 
 internal extension LocalFileProvider {

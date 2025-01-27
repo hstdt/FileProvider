@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
 import CoreGraphics
 #endif
     
@@ -626,7 +626,7 @@ extension OneDriveFileProvider: ExtendedFileProvider {
         return nil
     }
     
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     open func thumbnailOfFileSupported(path: String) -> Bool {
         let fileExt = path.pathExtension.lowercased()
         switch fileExt {

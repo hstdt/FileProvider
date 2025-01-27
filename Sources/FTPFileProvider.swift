@@ -74,7 +74,7 @@ open class FTPFileProvider: NSObject, FileProviderBasicRemote, FileProviderOpera
         }
     }
     
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     open var undoManager: UndoManager? = nil
     #endif
     
@@ -856,7 +856,7 @@ extension FTPFileProvider {
                     return
                 }
                 
-                #if os(macOS) || os(iOS) || os(tvOS)
+                #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
                 self._registerUndo(operation)
                 #endif
                 progress.completedUnitCount = progress.totalUnitCount
@@ -972,6 +972,6 @@ extension FTPFileProvider {
 
 extension FTPFileProvider: FileProvider { }
 
-#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
 extension FTPFileProvider: FileProvideUndoable { }
 #endif

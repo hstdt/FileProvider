@@ -8,7 +8,7 @@
 //
 
 import Foundation
-#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
 import CoreGraphics
 #endif
 
@@ -430,7 +430,7 @@ extension DropboxFileProvider: ExtendedFileProvider {
         return nil
     }
     
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     open func thumbnailOfFileSupported(path: String) -> Bool {
         switch path.pathExtension.lowercased() {
         case "jpg", "jpeg", "gif", "bmp", "png", "tif", "tiff":

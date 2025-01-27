@@ -6,7 +6,7 @@
 //  Copyright © 2017 Mousavian. Distributed under MIT license.
 //
 
-#if os(macOS) || os(iOS) || os(tvOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
 import Foundation
 import ImageIO
 import CoreGraphics
@@ -217,6 +217,10 @@ public struct LocalFileInformationGenerator {
         assetImgGenerate.maximumSize = dimension ?? .zero
         assetImgGenerate.appliesPreferredTrackTransform = true
         let time = CMTime(value: asset.duration.value / 3, timescale: asset.duration.timescale)
+        #if os(visionOS)
+        // https://stackoverflow.com/a/78770673
+        fatalError("NOT SUPPORTED YET")
+        #else
         if let cgImage = try? assetImgGenerate.copyCGImage(at: time, actualTime: nil) {
             #if os(macOS)
             return ImageClass(cgImage: cgImage, size: .zero)
@@ -224,6 +228,7 @@ public struct LocalFileInformationGenerator {
             return ImageClass(cgImage: cgImage)
             #endif
         }
+        #endif
         return nil
     }
     
@@ -379,6 +384,9 @@ public struct LocalFileInformationGenerator {
     
     /// Properties generator closure for video files.
     static public var videoProperties: ((_ fileURL: URL) -> (prop: [String: Any], keys: [String]))? = { fileURL in
+#if os(visionOS)
+        fatalError("NOT SUPPORTED YET")
+#else
         var dic = [String: Any]()
         var keys = [String]()
         
@@ -420,6 +428,7 @@ public struct LocalFileInformationGenerator {
         }
         add(key: "Audio Bitrate", value: "\(Int(ceil(bitrate / 1000))) kbps")
         return (dic, keys)
+#endif
     }
     
     /// Properties generator closure for protable documents files.

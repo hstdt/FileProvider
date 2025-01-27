@@ -109,7 +109,7 @@ internal extension URL {
         return (try? self.checkResourceIsReachable()) ?? false
     }
     
-    #if os(macOS) || os(iOS) || os(tvOS)
+    #if os(macOS) || os(iOS) || os(tvOS) || os(visionOS)
     #else
     func checkPromisedItemIsReachable() throws -> Bool {
         return false
